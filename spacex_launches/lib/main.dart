@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spacex_launches/view/launches_list_view.dart';
 
 void main() {
   runApp(const MainApp());
@@ -7,13 +8,19 @@ void main() {
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
-  @override
+@override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
+        appBar: AppBar(
+          title: const Text(
+            "SpaceX Launches",
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.black,
         ),
+        body: LaunchesListView(),
       ),
     );
   }
