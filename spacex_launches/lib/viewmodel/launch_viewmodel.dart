@@ -11,7 +11,7 @@ class LaunchViewModel extends ChangeNotifier {
 
   List<LaunchUiItem> get launches => _launches.map((launch) {
         return LaunchUiItem(
-          missionName: launch.missionName,
+          missionName: "#${launch.flightNumber} ${launch.missionName}",
           launchDateString: launch.launchDateString,
           rocketName: launch.rocketName,
           thumbnailUrl: launch.thumbnailUrl,
@@ -28,13 +28,17 @@ class LaunchViewModel extends ChangeNotifier {
   }
 
   Future<void> _fetchNextLaunches() async {
+    if (_isLoading) {
+      return;
+    }
+
     _currentPage++;
     _isLoading = true;
     notifyListeners();
 
     final fetchedLaunches = await _networkManager.getData(_currentPage);
 
-    _launches = fetchedLaunches;
+    _launches.addAll(fetchedLaunches);
     _isLoading = false;
     notifyListeners();
   }

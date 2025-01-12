@@ -24,21 +24,30 @@ class _LaunchesListViewState extends State<LaunchesListView> {
   Widget build(BuildContext context) {
     return Consumer<LaunchViewModel>(
       builder: (context, viewModel, child) {
-        if (viewModel.isLoading || viewModel.launches.isEmpty) {
+        if (viewModel.isLoading && viewModel.launches.isEmpty) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        return ListView.separated(
-          itemCount: viewModel.launches.length,
-          itemBuilder: (context, index) {
-            final item = viewModel.launches[index];
-            return LaunchListItem(
-              item: item,
-            );
+        return NotificationListener<ScrollEndNotification>(
+          onNotification: (notification) {
+            if (notification.metrics.pixels >=
+                notification.metrics.maxScrollExtent) {
+              context.read<LaunchViewModel>().reachedEnd();
+            }
+            return true;
           },
-          separatorBuilder: (context, index) => Divider(
-            color: Colors.grey.shade300,
-            thickness: 1,
+          child: ListView.separated(
+            itemCount: viewModel.launches.length,
+            itemBuilder: (context, index) {
+              final item = viewModel.launches[index];
+              return LaunchListItem(
+                item: item,
+              );
+            },
+            separatorBuilder: (context, index) => Divider(
+              color: Colors.grey.shade300,
+              thickness: 1,
+            ),
           ),
         );
       },
