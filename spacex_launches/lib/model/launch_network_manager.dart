@@ -20,19 +20,20 @@ class LaunchNetworkManager {
   final _limit = 15;
 
   Future<List<LaunchModel>> getData(int page) async {
-    http.Response response = await http.get(Uri.parse(_requestURL(page * _limit)));
+    http.Response response =
+        await http.get(Uri.parse(_requestURL(page * _limit)));
 
     if (response.statusCode == 200) {
-      String data = response.body;
+      final List<dynamic> data = jsonDecode(response.body);
 
-      return jsonDecode(data).map((launch) {
-        return LaunchModel(
-          missionName: launch['mission_name'],
-          launchDateString: launch['launch_date_utc'],
-          rocketName: launch['rocket']['rocket_name'],
-          thumbnailUrl: launch['links']['mission_patch'],
-        );
-      }).toList();
+      return data
+          .map((launchJson) => LaunchModel(
+                missionName: launchJson['mission_name'],
+                launchDateString: launchJson['launch_date_utc'],
+                rocketName: launchJson['rocket']['rocket_name'],
+                thumbnailUrl: launchJson['links']['mission_patch'],
+              ))
+          .toList();
     }
 
     return List.empty();

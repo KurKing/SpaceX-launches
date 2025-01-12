@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:spacex_launches/view/launches_list_view.dart';
+import 'package:spacex_launches/viewmodel/launch_viewmodel.dart';
 
 void main() {
   runApp(const MainApp());
@@ -8,7 +10,7 @@ void main() {
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
-@override
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -20,7 +22,11 @@ class MainApp extends StatelessWidget {
           ),
           backgroundColor: Colors.black,
         ),
-        body: LaunchesListView(),
+        body: ChangeNotifierProvider<LaunchViewModel>(
+            create: (BuildContext context) {
+              return LaunchViewModel();
+            },
+            child: LaunchesListView()),
       ),
     );
   }
