@@ -13,15 +13,18 @@ class LaunchListItem extends StatelessWidget {
       child: Row(
         children: [
           // Thumbnail Image
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Image.network(
-              item.thumbnailUrl,
-              width: 60,
-              height: 60,
-              fit: BoxFit.cover,
+          if (item.thumbnailUrl == null)
+            const SizedBox(width: 60, height: 60)
+          else
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.network(
+                item.thumbnailUrl!,
+                width: 60,
+                height: 60,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
           const SizedBox(width: 16),
           // Mission Details
           Expanded(

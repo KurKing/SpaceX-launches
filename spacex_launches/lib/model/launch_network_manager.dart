@@ -7,7 +7,7 @@ class LaunchModel {
   final String launchDateString;
   final String rocketName;
 
-  final String thumbnailUrl;
+  final String? thumbnailUrl;
 
   LaunchModel(
       {required this.flightNumber,

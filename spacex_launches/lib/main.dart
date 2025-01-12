@@ -26,7 +26,7 @@ class MainApp extends StatelessWidget {
             create: (BuildContext context) {
               return LaunchViewModel();
             },
-            child: LaunchesListView()),
+            child: const LaunchesListView()),
       ),
     );
   }

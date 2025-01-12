@@ -7,6 +7,7 @@ class LaunchViewModel extends ChangeNotifier {
 
   List<LaunchModel> _launches = [];
   bool _isLoading = false;
+  bool _reachedFinalPage = false;
   int _currentPage = -1;
 
   List<LaunchUiItem> get launches => _launches.map((launch) {
@@ -28,7 +29,7 @@ class LaunchViewModel extends ChangeNotifier {
   }
 
   Future<void> _fetchNextLaunches() async {
-    if (_isLoading) {
+    if (_isLoading || _reachedFinalPage) {
       return;
     }
 
@@ -38,8 +39,13 @@ class LaunchViewModel extends ChangeNotifier {
 
     final fetchedLaunches = await _networkManager.getData(_currentPage);
 
-    _launches.addAll(fetchedLaunches);
     _isLoading = false;
+    if (fetchedLaunches.isEmpty) {
+      _reachedFinalPage = true;
+    } else {
+      _launches.addAll(fetchedLaunches);
+    }
+
     notifyListeners();
   }
 }

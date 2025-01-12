@@ -3,7 +3,7 @@ class LaunchUiItem {
   final String launchDateString;
   final String rocketName;
 
-  final String thumbnailUrl;
+  final String? thumbnailUrl;
 
   LaunchUiItem(
       {required this.missionName,

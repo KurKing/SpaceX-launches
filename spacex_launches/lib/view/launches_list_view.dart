@@ -36,19 +36,29 @@ class _LaunchesListViewState extends State<LaunchesListView> {
             }
             return true;
           },
-          child: ListView.separated(
-            itemCount: viewModel.launches.length,
-            itemBuilder: (context, index) {
-              final item = viewModel.launches[index];
-              return LaunchListItem(
-                item: item,
-              );
-            },
-            separatorBuilder: (context, index) => Divider(
-              color: Colors.grey.shade300,
-              thickness: 1,
+          child: ListView(children: [
+            ListView.separated(
+              physics: const ScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: viewModel.launches.length,
+              itemBuilder: (context, index) {
+                final item = viewModel.launches[index];
+                return LaunchListItem(
+                  item: item,
+                );
+              },
+              separatorBuilder: (context, index) => Divider(
+                color: Colors.grey.shade300,
+                thickness: 1,
+              ),
             ),
-          ),
+            if (viewModel.isLoading && viewModel.launches.isNotEmpty)
+              const Center(
+                  child: SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: CircularProgressIndicator(strokeWidth: 2,))),
+          ]),
         );
       },
     );
